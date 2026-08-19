@@ -1,0 +1,74 @@
+[
+  {
+    "type": "medicine",
+    "current_time": "12:06 PM",
+    "medicines": [
+      {
+        "name": "dolo",
+        "time": "",
+        "taken": "yes"
+      },
+      {
+        "name": "",
+        "time": "",
+        "taken": "yes"
+      },
+      {
+        "name": "",
+        "time": "",
+        "taken": "yes"
+      }
+    ],
+    "missed_count": 0
+  },
+  {
+    "type": "medicine",
+    "current_time": "12:07 PM",
+    "medicines": [
+      {
+        "name": "dolo",
+        "time": "17:00",
+        "taken": "yes"
+      },
+      {
+        "name": "jjjj",
+        "time": "13:00",
+        "taken": "no"
+      },
+      {
+        "name": "ggggg",
+        "time": "9:00 ",
+        "taken": "yes"
+      }
+    ],
+    "missed_count": 1
+  },
+  {
+    "type": "medicine",
+    "current_time": "12:07 PM",
+    "medicines": [
+      {
+        "name": "dolo",
+        "time": "17:00",
+        "taken": "yes"
+      },
+      {
+        "name": "jjjj",
+        "time": "13:00",
+        "taken": "no"
+      },
+      {
+        "name": "ggggg",
+        "time": "9:00 ",
+        "taken": "yes"
+      }
+    ],
+    "missed_count": 1
+  },
+  {
+    "type": "health_check",
+    "temperature": 101.0,
+    "feeling": "tired",
+    "health_status": "Needs Attention"
+  }
+]
