@@ -13,12 +13,10 @@ st.set_page_config(
 # ---------- Custom styling ----------
 st.markdown("""
 <style>
-    /* Main background */
     .stApp {
         background-color: #f5f9fc;
     }
 
-    /* Sidebar */
     section[data-testid="stSidebar"] {
         background-color: #1b3a4b;
     }
@@ -26,7 +24,6 @@ st.markdown("""
         color: white !important;
     }
 
-    /* Title area */
     .title-box {
         background: linear-gradient(90deg, #2193b0, #6dd5ed);
         padding: 25px;
@@ -46,7 +43,6 @@ st.markdown("""
         font-size: 15px;
     }
 
-    /* Buttons */
     div.stButton > button, div.stFormSubmitButton > button {
         background-color: #2193b0;
         color: white;
@@ -60,17 +56,48 @@ st.markdown("""
         color: white;
     }
 
-    /* Cards / containers */
+    /* Sidebar nav buttons */
+    section[data-testid="stSidebar"] div.stButton > button {
+        width: 100%;
+        text-align: left;
+        background-color: transparent;
+        border: 1px solid transparent;
+        font-weight: 500;
+        padding: 10px 14px;
+        margin-bottom: 4px;
+    }
+    section[data-testid="stSidebar"] div.stButton > button:hover {
+        background-color: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.3);
+    }
+
     .block-container {
         padding-top: 2rem;
     }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- Sidebar ----------
+# ---------- Sidebar navigation (buttons instead of radio for reliable mobile taps) ----------
+if "page" not in st.session_state:
+    st.session_state.page = "Medicine Reminder"
+
 st.sidebar.markdown("## 💊 SmartMed AI")
 st.sidebar.markdown("---")
-page = st.sidebar.radio("Navigate", ["🏠 Medicine Reminder", "🩺 Health Check", "📋 Medicine History"])
+st.sidebar.markdown("**Navigate**")
+
+nav_items = [
+    ("🏠 Medicine Reminder", "Medicine Reminder"),
+    ("🩺 Health Check", "Health Check"),
+    ("📋 Medicine History", "Medicine History"),
+]
+
+for label, key in nav_items:
+    is_active = st.session_state.page == key
+    prefix = "➤ " if is_active else "　"
+    if st.sidebar.button(prefix + label, key=f"nav_{key}", use_container_width=True):
+        st.session_state.page = key
+        st.rerun()
+
 st.sidebar.markdown("---")
 st.sidebar.caption("AI + Cloud powered health assistant")
 
@@ -83,9 +110,9 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- Page routing ----------
-if page == "🏠 Medicine Reminder":
+if st.session_state.page == "Medicine Reminder":
     medicine_reminder.show()
-elif page == "🩺 Health Check":
+elif st.session_state.page == "Health Check":
     health_check.show()
-elif page == "📋 Medicine History":
+elif st.session_state.page == "Medicine History":
     medicine_history.show()
