@@ -1,6 +1,6 @@
 import streamlit as st
 from storage import save_record
-from reminder_utils import parse_time_str, is_due, generate_beep_base64, now_ist
+from reminder_utils import parse_time_str, is_due, generate_beep_bytes, now_ist
 
 
 def show():
@@ -39,13 +39,9 @@ def show():
 
         if due_meds:
             st.error(f"🔔⏰ **ALARM: It's time to take {', '.join(due_meds)}!**")
-            beep_b64 = generate_beep_base64()
-            st.markdown(
-                f"""<audio autoplay>
-                <source src="data:audio/wav;base64,{beep_b64}" type="audio/wav">
-                </audio>""",
-                unsafe_allow_html=True,
-            )
+            beep_audio = generate_beep_bytes()
+            st.write("🔊 Tap play to hear the alarm:")
+            st.audio(beep_audio, format="audio/wav", autoplay=True)
         else:
             st.success("✅ No reminders due right now. You're all caught up!")
 
