@@ -266,5 +266,34 @@
       }
     ],
     "missed_count": 1
+  },
+  {
+    "type": "medicine",
+    "current_time": "12:32 PM",
+    "medicines": [
+      {
+        "name": "paracetamol",
+        "time": "12:34",
+        "taken": "no"
+      },
+      {
+        "name": "scriub",
+        "time": "12:35 ",
+        "taken": "yes"
+      },
+      {
+        "name": "vitamin",
+        "time": "9:00 AM",
+        "taken": "no"
+      }
+    ],
+    "missed_count": 2
+  },
+  {
+    "type": "health_check",
+    "temperature": 98.79,
+    "feeling": "tired",
+    "missed_doses": 2,
+    "health_status": "Needs Attention"
   }
 ]
