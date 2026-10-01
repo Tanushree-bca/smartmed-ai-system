@@ -40,10 +40,10 @@ def is_due(reminder_time):
     return diff <= 0 and diff > -60
 
 
-def generate_beep_bytes(duration=0.6, freq=880, volume=0.6, rate=44100, beeps=2):
+def generate_beep_bytes(duration=0.5, freq=1000, volume=0.95, rate=44100, beeps=6):
     """Generates a short beep-beep alarm sound as raw WAV bytes (no internet/files needed)."""
     n_samples = int(rate * duration)
-    gap_samples = int(rate * 0.15)
+    gap_samples = int(rate * 0.2)
     buf = io.BytesIO()
     wf = wave.open(buf, "w")
     wf.setnchannels(1)
