@@ -4,6 +4,14 @@ import struct
 import base64
 import math
 from datetime import datetime
+from zoneinfo import ZoneInfo
+
+IST = ZoneInfo("Asia/Kolkata")
+
+
+def now_ist():
+    """Current date & time in Indian Standard Time, regardless of server location."""
+    return datetime.now(IST)
 
 
 def parse_time_str(t):
@@ -19,17 +27,17 @@ def parse_time_str(t):
 
 
 def minutes_until(reminder_time):
-    """Returns how many minutes from now until the reminder time (can be negative if already passed)."""
-    now = datetime.now()
+    """Returns how many minutes from now (IST) until the reminder time (negative if already passed)."""
+    now = now_ist()
     reminder_dt = now.replace(hour=reminder_time.hour, minute=reminder_time.minute, second=0, microsecond=0)
     diff = (reminder_dt - now).total_seconds() / 60
     return diff
 
 
-def is_due(reminder_time, window_minutes=2):
-    """A reminder counts as 'due' if the current time is within `window_minutes` after the reminder time."""
+def is_due(reminder_time):
+    """A reminder is 'due' if its time has already passed today, within the last 60 minutes."""
     diff = minutes_until(reminder_time)
-    return -window_minutes <= diff <= 0 or (diff <= 0 and diff > -60)
+    return diff <= 0 and diff > -60
 
 
 def generate_beep_base64(duration=0.4, freq=880, volume=0.5, rate=44100):

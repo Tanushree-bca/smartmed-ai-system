@@ -1,14 +1,13 @@
 import streamlit as st
-import time
 from storage import save_record
-from reminder_utils import parse_time_str, is_due, generate_beep_base64
+from reminder_utils import parse_time_str, is_due, generate_beep_base64, now_ist
 
 
 def show():
     st.subheader("🏠 Medicine Reminder")
     st.write("Set your medicine times below. Click **Check My Reminders** anytime to see if it's time to take one.")
 
-    current_time_str = time.strftime("%I:%M %p")
+    current_time_str = now_ist().strftime("%I:%M %p")
     st.info(f"🕒 Current time: **{current_time_str}**")
 
     medicines = []
