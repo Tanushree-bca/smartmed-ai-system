@@ -61,6 +61,16 @@ def generate_beep_bytes(duration=0.5, freq=1000, volume=0.95, rate=44100, beeps=
     return buf.getvalue()
 
 
+def generate_voice_alert(text):
+    """Generates a spoken voice alert as MP3 bytes using Google Text-to-Speech (requires internet)."""
+    from gtts import gTTS
+    buf = io.BytesIO()
+    tts = gTTS(text=text, lang="en")
+    tts.write_to_fp(buf)
+    buf.seek(0)
+    return buf.read()
+
+
 def generate_beep_base64(duration=0.4, freq=880, volume=0.5, rate=44100):
     """Generates a short beep sound as a base64-encoded WAV string (no internet/files needed)."""
     wav_bytes = generate_beep_bytes(duration=duration, freq=freq, volume=volume, rate=rate, beeps=1)

@@ -1,6 +1,6 @@
 import streamlit as st
 from storage import save_record
-from reminder_utils import is_due, generate_beep_bytes, now_ist
+from reminder_utils import is_due, generate_beep_bytes, generate_voice_alert, now_ist
 
 
 def show():
@@ -56,8 +56,13 @@ def show():
 
         if due_meds:
             st.error(f"### 🔔⏰ YES! Time to take: {', '.join(due_meds)}")
-            beep_audio = generate_beep_bytes()
-            st.audio(beep_audio, format="audio/wav", autoplay=True)
+            spoken_text = f"It is time to take your medicine, {' and '.join(due_meds)}."
+            try:
+                voice_audio = generate_voice_alert(spoken_text)
+                st.audio(voice_audio, format="audio/mp3", autoplay=True)
+            except Exception:
+                beep_audio = generate_beep_bytes()
+                st.audio(beep_audio, format="audio/wav", autoplay=True)
             st.write("🔊 If you don't hear anything, tap the play button above.")
 
             taken_now = st.button(f"✅ I Took My Medicine", use_container_width=True)

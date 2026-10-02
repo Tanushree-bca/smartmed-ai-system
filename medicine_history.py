@@ -31,6 +31,20 @@ def build_medicine_table(history):
     return rows
 
 
+def compute_compliance(history):
+    taken = 0
+    missed = 0
+    for record in history:
+        if record["type"] == "medicine":
+            for med in record.get("medicines", []):
+                if med.get("name"):
+                    if med.get("taken") == "yes":
+                        taken += 1
+                    else:
+                        missed += 1
+    return taken, missed
+
+
 def show():
     st.subheader("📋 Medicine History")
     st.write("A complete record of your medicines and health checks.")
@@ -50,6 +64,27 @@ def show():
     col3.metric("Health Checks", total_health_records)
 
     st.markdown("---")
+
+    # ---------- Compliance Chart ----------
+    taken, missed = compute_compliance(history)
+    if taken + missed > 0:
+        st.markdown("### 📊 Medicine Compliance Overview")
+        compliance_pct = round((taken / (taken + missed)) * 100, 1)
+
+        chart_col, score_col = st.columns([2, 1])
+        with chart_col:
+            chart_df = pd.DataFrame({"Doses": [taken, missed]}, index=["Taken ✅", "Missed ❌"])
+            st.bar_chart(chart_df)
+        with score_col:
+            st.metric("Compliance Score", f"{compliance_pct}%")
+            if compliance_pct >= 80:
+                st.success("Great consistency! 🎉")
+            elif compliance_pct >= 50:
+                st.warning("Room for improvement.")
+            else:
+                st.error("Needs attention.")
+
+        st.markdown("---")
 
     tab1, tab2 = st.tabs(["💊 Medicine Records", "🩺 Health Check Records"])
 
